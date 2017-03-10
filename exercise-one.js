@@ -58,7 +58,7 @@ function problemA () {
 
 }
 
-function problemB () {npm
+function problemB () {
   /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
    *
    * B. log poem one stanza two and three, in any order

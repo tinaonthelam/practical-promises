@@ -105,7 +105,7 @@ function problemB () {
   for (var i = 1; i < 9; i ++){
     stanzas.push(promisifiedReadFile('poem-two/stanza-0' + i + '.txt')
       .then(function (stanza) {
-        console.log('-- A. Promisified version (stanza) --');
+        console.log('-- B. Promisified version (stanza) --');
         blue(stanza);
       })
     );
@@ -113,7 +113,7 @@ function problemB () {
 
   Promise.all(stanzas).then(
     function () {
-      console.log('-- A. callback version done --');
+      console.log('-- B. callback version done --');
     }
   )
 
@@ -154,7 +154,7 @@ function problemC () {
   }
 
   Promise.each(stanzas, function (stanza) {
-    console.log('-- A. Promisified version (stanza) --');
+    console.log('-- C. Promisified version (stanza) --');
     blue(stanza)
     }
   ).then(function () {
@@ -188,23 +188,36 @@ function problemD () {
   filenames[randIdx] = 'wrong-file-name-' + (randIdx + 1) + '.txt';
 
   // callback version
-  async.eachSeries(filenames,
-    function (filename, eachDone) {
-      readFile(filename, function (err, stanza) {
-        console.log('-- D. callback version --');
-        if (err) return eachDone(err);
-        blue(stanza);
-        eachDone();
-      });
-    },
-    function (err) {
-      if (err) magenta(err);
-      console.log('-- D. callback version done --');
-    }
-  );
+  // async.eachSeries(filenames,
+  //   function (filename, eachDone) {
+  //     readFile(filename, function (err, stanza) {
+  //       console.log('-- D. callback version --');
+  //       if (err) return eachDone(err);
+  //       blue(stanza);
+  //       eachDone();
+  //     });
+  //   },
+  //   function (err) {
+  //     if (err) magenta(err);
+  //     console.log('-- D. callback version done --');
+  //   }
+  // );
 
   // promise version
-  // ???
+  var stanzas = [];
+  for (var i = 1; i < 9; i ++){
+    stanzas.push(promisifiedReadFile('poem-two/stanza-0' + i + '.txt'));
+  }
+
+  Promise.each(stanzas, function (stanza) {
+    console.log('-- D. Promisified version (stanza) --');
+    blue(stanza)
+    }
+  ).then(function () {
+        console.log('-- D. callback version done --')
+  }).catch(function(err) {
+    magenta(err);
+  })
 
 }
 
@@ -217,6 +230,15 @@ function problemE () {
 
   var fs = require('fs');
   function promisifiedWriteFile (filename, str) {
-    // your code here
+    return new Promise(function (resolve, reject) {
+      fs.writeFile(filename, str, function(err) {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
   }
+
+  // promisifiedWriteFile('poem-one/stanza-01.txt', "hello").then(function(result) {
+  //   console.log("I'm done writing the file.");
+  // })
 }
