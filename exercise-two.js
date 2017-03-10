@@ -36,21 +36,38 @@ function problemA () {
    */
 
   // callback version
-  async.each(['poem-two/stanza-01.txt', 'poem-two/stanza-02.txt'],
-    function (filename, eachDone) {
-      readFile(filename, function (err, stanza) {
-        console.log('-- A. callback version --');
-        blue(stanza);
-        eachDone();
-      });
-    },
-    function (err) {
-      console.log('-- A. callback version done --');
-    }
-  );
+  // async.each(['poem-two/stanza-01.txt', 'poem-two/stanza-02.txt'],
+  //   function (filename, eachDone) {
+  //     readFile(filename, function (err, stanza) {
+  //       console.log('-- A. callback version --');
+  //       blue(stanza);
+  //       eachDone();
+  //     });
+  //   },
+  //   function (err) {
+  //     console.log('-- A. callback version done --');
+  //   }
+  // );
 
   // promise version
-  // ???
+  var stanza1 = promisifiedReadFile('poem-two/stanza-01.txt')
+    .then(function (stanza1) {
+      console.log('-- A. Promisified version (stanza one) --');
+      blue(stanza1);
+    });
+
+  var stanza2 = promisifiedReadFile('poem-two/stanza-02.txt')
+    .then(function (stanza2) {
+      console.log('-- A. Promisified version (stanza two) --');
+      blue(stanza2);
+
+    });
+
+  Promise.all([stanza1, stanza2]).then(
+    function () {
+      console.log('-- A. callback version done --');
+    }
+  )
 
 }
 
@@ -69,21 +86,36 @@ function problemB () {
   });
 
   // callback version
-  async.each(filenames,
-    function (filename, eachDone) {
-      readFile(filename, function (err, stanza) {
-        console.log('-- B. callback version --');
-        blue(stanza);
-        eachDone();
-      });
-    },
-    function (err) {
-      console.log('-- B. callback version done --');
-    }
-  );
+  // async.each(filenames,
+  //   function (filename, eachDone) {
+  //     readFile(filename, function (err, stanza) {
+  //       console.log('-- B. callback version --');
+  //       blue(stanza);
+  //       eachDone();
+  //     });
+  //   },
+  //   function (err) {
+  //     console.log('-- B. callback version done --');
+  //   }
+  // );
 
   // promise version
-  // ???
+  var stanzas = [];
+
+  for (var i = 1; i < 9; i ++){
+    stanzas.push(promisifiedReadFile('poem-two/stanza-0' + i + '.txt')
+      .then(function (stanza) {
+        console.log('-- A. Promisified version (stanza) --');
+        blue(stanza);
+      })
+    );
+  }
+
+  Promise.all(stanzas).then(
+    function () {
+      console.log('-- A. callback version done --');
+    }
+  )
 
 }
 
