@@ -134,21 +134,40 @@ function problemC () {
   });
 
   // callback version
-  async.eachSeries(filenames,
-    function (filename, eachDone) {
-      readFile(filename, function (err, stanza) {
-        console.log('-- C. callback version --');
-        blue(stanza);
-        eachDone();
-      });
-    },
-    function (err) {
-      console.log('-- C. callback version done --');
-    }
-  );
+  // async.eachSeries(filenames,
+  //   function (filename, eachDone) {
+  //     readFile(filename, function (err, stanza) {
+  //       console.log('-- C. callback version --');
+  //       blue(stanza);
+  //       eachDone();
+  //     });
+  //   },
+  //   function (err) {
+  //     console.log('-- C. callback version done --');
+  //   }
+  // );
 
   // promise version
-  // ???
+  var stanzas = [];
+  for (var i = 1; i < 9; i ++){
+    stanzas.push(promisifiedReadFile('poem-two/stanza-0' + i + '.txt'));
+  }
+
+  Promise.each(stanzas, function (stanza) {
+    console.log('-- A. Promisified version (stanza) --');
+    blue(stanza)
+    }
+  ).then(function () {
+        console.log('-- C. callback version done --')
+      }
+    );
+
+
+  // Promise.all(stanzas).then(
+  //   function () {
+  //     console.log('-- A. callback version done --');
+  //   }
+  // )
 
 }
 
