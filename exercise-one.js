@@ -112,7 +112,7 @@ function problemC () {
   promisifiedReadFile('poem-one/stanza-02.txt')
   .then(function(stanza2) {
     blue(stanza2);
-    return promisifiedReadFile('poem-one/stanza-03.txt'); 
+    return promisifiedReadFile('poem-one/stanza-03.txt');
   })
   .then(function(stanza3) {
     blue(stanza3);
@@ -128,14 +128,20 @@ function problemD () {
    */
 
   // callback version
-  readFile('poem-one/wrong-file-name.txt', function (err, stanza4) {
-    console.log('-- D. callback version (stanza four) --');
-    if (err) magenta(err);
-    else blue(stanza4);
-  });
+  // readFile('poem-one/wrong-file-name.txt', function (err, stanza4) {
+  //   console.log('-- D. callback version (stanza four) --');
+  //   if (err) magenta(err);
+  //   else blue(stanza4);
+  // });
 
   // promise version
-  // ???
+  promisifiedReadFile('poem-one/wrong-file-name.txt')
+  .then(function(stanza) {
+    blue(stanza);
+  })
+  .catch(function(err) {
+    magenta(err);
+  })
 
 }
 
@@ -148,19 +154,29 @@ function problemE () {
    */
 
   // callback version
-  readFile('poem-one/stanza-03.txt', function (err, stanza3) {
-    console.log('-- E. callback version (stanza three) --');
-    if (err) return magenta(err);
-    blue(stanza3);
-    readFile('poem-one/wrong-file-name.txt', function (err2, stanza4) {
-      console.log('-- E. callback version (stanza four) --');
-      if (err2) return magenta(err2);
-      blue(stanza4);
-    });
-  });
+  // readFile('poem-one/stanza-03.txt', function (err, stanza3) {
+  //   console.log('-- E. callback version (stanza three) --');
+  //   if (err) return magenta(err);
+  //   blue(stanza3);
+  //   readFile('poem-one/wrong-file-name.txt', function (err2, stanza4) {
+  //     console.log('-- E. callback version (stanza four) --');
+  //     if (err2) return magenta(err2);
+  //     blue(stanza4);
+  //   });
+  // });
 
   // promise version
-  // ???
+  promisifiedReadFile('poem-one/stanza-03.txt')
+  .then(function(stanza3) {
+    blue(stanza3);
+    return promisifiedReadFile('poem-one/wrong-file-name.txt');
+  })
+  .then(function(stanza4) {
+    blue(stana4);
+  })
+  .catch(function(err) {
+    magenta(err);
+  });
 
 }
 

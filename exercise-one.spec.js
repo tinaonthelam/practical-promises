@@ -74,7 +74,7 @@ describe('exercise one (involving poem one)', function () {
 
 	describe('problemC', function () {
 
-		it('logs the second THEN the third stanza', function (done) {
+		xit('logs the second THEN the third stanza', function (done) {
 			exercise.problemC();
 			setTimeout(function () {
 				var firstCallArgs = blueCalls[0];
